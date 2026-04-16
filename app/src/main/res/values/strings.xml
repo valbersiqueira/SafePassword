@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Android Clean Scaffold</string>
+    <string name="app_name">SafePassword</string>
+    <string name="email">E-mail</string>
+    <string name="password">Senha</string>
+    <string name="show_password">Mostrar senha</string>
+    <string name="hide_password">Ocultar senha</string>
+    <string name="login">Entrar</string>
+    <string name="remember_me">Lembrar-me</string>
+    <string name="error">Erro</string>
+    <string name="ok">OK</string>
+    <string name="invalid_email">E-mail inválido</string>
+    <string name="invalid_password">Senha deve ter ao menos 8 caracteres</string>
+    <string name="auth_error">Erro ao autenticar</string>
+    <string name="home">Home</string>
+    <string name="sample_item">Item de Exemplo</string>
+    <string name="sample_item_desc">Descrição do item de exemplo</string>
+    <string name="other_item">Outro Item</string>
+    <string name="other_item_desc">Outra descrição</string>
+    <string name="response_body_null">Resposta da API vazia</string>
 </resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SafePassword</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="show_password">Show password</string>
+    <string name="hide_password">Hide password</string>
+    <string name="login">Login</string>
+    <string name="remember_me">Remember me</string>
+    <string name="error">Error</string>
+    <string name="ok">OK</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="invalid_password">Password must be at least 8 characters</string>
+    <string name="auth_error">Authentication error</string>
+    <string name="home">Home</string>
+    <string name="sample_item">Sample Item</string>
+    <string name="sample_item_desc">Sample item description</string>
+    <string name="other_item">Other Item</string>
+    <string name="other_item_desc">Other description</string>
+    <string name="response_body_null">API response is null</string>
+</resources>
