@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace = "com.scaffold.app"
+    namespace = "com.safepassword.app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.scaffold.app"
+        applicationId = "com.safepassword.app"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -56,6 +56,7 @@ dependencies {
     // Core
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
     implementation("androidx.activity:activity-compose:1.8.2")
 
     // Compose BOM
