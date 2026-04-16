@@ -1,6 +1,17 @@
-# Android Clean Scaffold
+# SafePassword
 
-Template base para novos projetos Android seguindo **Clean Architecture + MVVM + Jetpack Compose + Hilt**.
+Aplicativo Android para **gerenciamento seguro de senhas**, construído com **Clean Architecture + MVVM + Jetpack Compose + Hilt**.
+
+---
+
+## Funcionalidades
+
+- Autenticação segura por e-mail e senha
+- Armazenamento local de credenciais (Room)
+- Internacionalização: suporte a Português (pt-BR) e Inglês (en)
+- Tema claro e escuro com Material Design 3
+- Splash screen animada
+- Validação de e-mail e senha em tempo real
 
 ---
 
@@ -23,7 +34,7 @@ Template base para novos projetos Android seguindo **Clean Architecture + MVVM +
 ## Estrutura do Projeto
 
 ```
-app/src/main/java/com/scaffold/app/
+app/src/main/java/com/safepassword/app/
 │
 ├── data/                          # Camada de Dados
 │   ├── api/
@@ -33,27 +44,27 @@ app/src/main/java/com/scaffold/app/
 │   │   ├── NetworkModule.kt       # Provê Retrofit, OkHttp, ApiService
 │   │   └── RepositoryModule.kt    # Bind de interfaces → implementações
 │   ├── mappers/
-│   │   ├── SampleItemMapper.kt    # Converte DTO → domínio
-│   │   └── AuthMapper.kt
+│   │   ├── AuthMapper.kt          # Converte LoginResponse → AuthResult
+│   │   └── SampleItemMapper.kt
 │   ├── models/
-│   │   ├── SampleItemDto.kt       # Modelos Request/Response da API
-│   │   └── AuthDto.kt
+│   │   ├── AuthDto.kt             # LoginRequest, LoginResponse, UserResponse
+│   │   └── SampleItemDto.kt
 │   └── repositories/
-│       ├── SampleRepositoryImpl.kt
-│       └── AuthRepositoryImpl.kt
+│       ├── AuthRepositoryImpl.kt
+│       └── SampleRepositoryImpl.kt
 │
 ├── domain/                        # Camada de Domínio (sem dependências externas)
 │   ├── models/
-│   │   ├── SampleItem.kt          # Modelo de domínio genérico
-│   │   └── Auth.kt                # User, Credentials, AuthResult
+│   │   ├── Auth.kt                # User, Credentials, AuthResult
+│   │   └── SampleItem.kt
 │   ├── repositories/
-│   │   ├── SampleRepository.kt    # Interface do repositório
-│   │   └── AuthRepository.kt
+│   │   ├── AuthRepository.kt      # Interface de autenticação
+│   │   └── SampleRepository.kt
 │   └── usecases/
-│       ├── GetSampleItemsUseCase.kt
 │       ├── LoginUseCase.kt
 │       ├── ValidateEmailUseCase.kt
-│       └── ValidatePasswordUseCase.kt
+│       ├── ValidatePasswordUseCase.kt
+│       └── GetSampleItemsUseCase.kt
 │
 ├── presentation/                  # Camada de Apresentação
 │   └── ui/
@@ -70,82 +81,66 @@ app/src/main/java/com/scaffold/app/
 │           ├── screens/           # HomeScreen
 │           └── viewmodels/        # HomeViewModel, HomeUiState
 │
-├── ui/theme/                      # Tema global
+├── ui/theme/                      # Tema global (Material Design 3)
 │   ├── Color.kt
-│   ├── Theme.kt                   # AppTheme
+│   ├── Theme.kt                   # AppTheme (light/dark)
 │   └── Type.kt
 │
 ├── MainActivity.kt                # @AndroidEntryPoint
 ├── SplashActivity.kt
-└── ScaffoldApp.kt                 # @HiltAndroidApp
+└── SafePasswordApp.kt             # @HiltAndroidApp
 ```
 
 ---
 
-## Como usar este scaffold
+## Configuração
 
-### 1. Renomear pacote
+### Requisitos
 
-Substitua todas as ocorrências de `com.scaffold.app` pelo pacote do seu novo projeto:
+- Android Studio Hedgehog ou superior
+- JDK 17
+- Android SDK 34
+- minSdk 24
 
-```bash
-# Exemplo com sed (macOS/Linux)
-find . -type f -name "*.kt" -exec sed -i '' 's/com\.scaffold\.app/com.suaempresa.seuprojeto/g' {} +
-find . -type f -name "*.xml" -exec sed -i '' 's/com\.scaffold\.app/com.suaempresa.seuprojeto/g' {} +
-```
-
-Altere também em `app/build.gradle.kts`:
-```kotlin
-namespace = "com.suaempresa.seuprojeto"
-applicationId = "com.suaempresa.seuprojeto"
-```
-
-E em `settings.gradle.kts`:
-```kotlin
-rootProject.name = "SeuProjeto"
-```
-
-### 2. Configurar URL da API
+### Configurar URL da API
 
 Em `app/build.gradle.kts`:
 ```kotlin
 buildConfigField("String", "API_BASE_URL", "\"https://sua-api.com/\"")
 ```
 
-### 3. Criar uma nova Feature (padrão)
+### Adicionar nova Feature (padrão)
 
 Siga sempre esta estrutura para cada nova feature:
 
 ```
-presentation/ui/minha_feature/
+presentation/ui/nova_feature/
 ├── components/          # Composables menores e reutilizáveis
-├── screens/             # MinhaFeatureScreen.kt  
-└── viewmodels/          # MinhaFeatureViewModel.kt + UiState + UiEvent
+├── screens/             # NovaFeatureScreen.kt
+└── viewmodels/          # NovaFeatureViewModel.kt + UiState + UiEvent
 
 domain/
-├── models/              # MinhaEntidade.kt
-├── repositories/        # MinhaFeatureRepository.kt (interface)
-└── usecases/            # GetMinhaFeatureUseCase.kt
+├── models/              # NovaEntidade.kt
+├── repositories/        # NovaFeatureRepository.kt (interface)
+└── usecases/            # GetNovaFeatureUseCase.kt
 
 data/
-├── models/              # MinhaEntidadeDto.kt
-├── mappers/             # MinhaEntidadeMapper.kt
-└── repositories/        # MinhaFeatureRepositoryImpl.kt
+├── models/              # NovaEntidadeDto.kt
+├── mappers/             # NovaEntidadeMapper.kt
+└── repositories/        # NovaFeatureRepositoryImpl.kt
 ```
 
-Adicione o binding no `RepositoryModule.kt` e o endpoint no `ApiService.kt`.
-
-### 4. Adicionar nova tela à navegação
+### Adicionar nova tela à navegação
 
 Em `Screen.kt`:
 ```kotlin
-object MinhaNovaFeature : Screen("minha_feature")
+object NovaFeature : Screen("nova_feature")
 ```
 
 Em `NavGraph.kt`:
 ```kotlin
-composable(Screen.MinhaNovaFeature.route) {
-    MinhaNovaFeatureScreen(/* callbacks */)
+composable(Screen.NovaFeature.route) {
+    NovaFeatureScreen(/* callbacks */)
 }
 ```
 
@@ -161,13 +156,13 @@ composable(Screen.MinhaNovaFeature.route) {
 
 ```kotlin
 @HiltViewModel
-class MinhaViewModel @Inject constructor(
-    private val useCase: MeuUseCase
+class PasswordViewModel @Inject constructor(
+    private val useCase: GetPasswordsUseCase
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(MeuUiState())
+    private val _uiState = MutableStateFlow(PasswordUiState())
     val uiState = _uiState.asStateFlow()
 
-    private val _uiEvent = MutableSharedFlow<MeuUiEvent>()
+    private val _uiEvent = MutableSharedFlow<PasswordUiEvent>()
     val uiEvent = _uiEvent.asSharedFlow()
 }
 ```
@@ -179,16 +174,16 @@ class MinhaViewModel @Inject constructor(
 
 ```kotlin
 @Composable
-fun MinhaScreen(
+fun PasswordScreen(
     onAction: () -> Unit,
-    viewModel: MinhaViewModel = hiltViewModel()
+    viewModel: PasswordViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    MinhaContent(uiState = uiState, onAction = onAction)
+    PasswordContent(uiState = uiState, onAction = onAction)
 }
 
 @Composable
-private fun MinhaContent(uiState: MeuUiState, onAction: () -> Unit) { ... }
+private fun PasswordContent(uiState: PasswordUiState, onAction: () -> Unit) { ... }
 ```
 
 ### Use Cases
@@ -203,15 +198,29 @@ private fun MinhaContent(uiState: MeuUiState, onAction: () -> Unit) { ... }
 
 ---
 
+## Internacionalização (i18n)
+
+O app suporta múltiplos idiomas via `strings.xml`:
+
+| Recurso | Idioma |
+|---|---|
+| `res/values/strings.xml` | Português (pt-BR) — padrão |
+| `res/values-en/strings.xml` | Inglês (en) |
+
+Para adicionar um novo idioma, crie `res/values-XX/strings.xml` onde `XX` é o código do idioma (ex: `es` para espanhol).
+
+---
+
 ## Convenção de Commits
 
-Siga o padrão Conventional Commits:
+Siga o padrão **Conventional Commits** com mensagens em **inglês**:
 
 ```
-feat(login): implementa validação de senha
-fix(home): corrige crash ao carregar lista vazia
-refactor(auth): extrai lógica para use case
-test(login): adiciona teste unitário para ValidateEmailUseCase
+feat(auth): add biometric authentication support
+fix(login): fix crash on empty password submission
+refactor(vault): extract password strength logic to use case
+test(auth): add unit tests for ValidatePasswordUseCase
+chore(deps): update Compose BOM to 2024.x
 ```
 
 Tipos: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `perf`, `ci`, `build`, `revert`
@@ -249,40 +258,23 @@ fun `validateEmail returns false for invalid email`() {
 
 ---
 
-## Checklist ao iniciar novo projeto a partir deste scaffold
-
-- [ ] Renomear pacote em todos os arquivos `.kt` e `.xml`
-- [ ] Atualizar `applicationId` e `namespace` no `build.gradle.kts`
-- [ ] Atualizar `rootProject.name` no `settings.gradle.kts`
-- [ ] Definir `API_BASE_URL` no `build.gradle.kts`
-- [ ] Atualizar `app_name` em `strings.xml`
-- [ ] Substituir modelos de exemplo (`SampleItem`) por modelos de domínio reais
-- [ ] Configurar autenticação real no `AuthRepositoryImpl`
-- [ ] Adicionar `google-services.json` se usar Firebase
-- [ ] Atualizar ícones do launcher
-- [ ] Remover / adaptar exemplos genéricos que não se aplicam ao projeto
-
----
-
 ## CI/CD (GitHub Actions)
 
-This project uses GitHub Actions for continuous integration and deployment:
+- **Build & Test:** Em todo push e pull request:
+  - Checkout do código
+  - Configuração do JDK 17
+  - Cache das dependências Gradle
+  - Build (assembleDebug)
+  - Execução de testes unitários
+  - Lint
+- **Deploy:** Em push para `main`, pré-configurado para deploy na Google Play Store via `r0adkll/upload-google-play`.
 
-- **Build & Test:** On every push and pull request, the workflow will:
-  - Checkout code
-  - Set up JDK 17
-  - Cache Gradle dependencies
-  - Build the app (assembleDebug)
-  - Run unit tests
-  - Run lint
-- **Deploy:** On push to `main`, the workflow is pre-configured to deploy to the Google Play Store using the `r0adkll/upload-google-play` action.
+### Secrets necessários para deploy
 
-### Required Secrets for Deploy
-To enable deploy to the Play Store, add these secrets in your repository settings:
-- `PLAY_STORE_JSON`: Service account JSON for Play Store API access
-- `KEYSTORE_BASE64`: Base64-encoded release keystore
-- (Other signing configs as needed)
+Configure no repositório do GitHub:
+- `PLAY_STORE_JSON`: JSON da conta de serviço da Play Store API
+- `KEYSTORE_BASE64`: Keystore de release em Base64
 
-> The deploy step is pre-configured but will only work when the required secrets are set.
+> O deploy só funcionará quando os secrets estiverem configurados.
 
-See `.github/workflows/android.yml` for details.
+Veja `.github/workflows/android.yml` para detalhes.
