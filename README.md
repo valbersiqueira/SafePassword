@@ -1,50 +1,50 @@
 # SafePassword
 
-Aplicativo Android para **gerenciamento seguro de senhas**, construído com **Clean Architecture + MVVM + Jetpack Compose + Hilt**.
+Android app for **secure password management**, built with **Clean Architecture + MVVM + Jetpack Compose + Hilt**.
 
 ---
 
-## Funcionalidades
+## Features
 
-- Autenticação segura por e-mail e senha
-- Armazenamento local de credenciais (Room)
-- Internacionalização: suporte a Português (pt-BR) e Inglês (en)
-- Tema claro e escuro com Material Design 3
-- Splash screen animada
-- Validação de e-mail e senha em tempo real
+- Secure authentication via email and password
+- Local credential storage (Room)
+- Internationalization: supports Portuguese (pt-BR) and English (en)
+- Light and dark theme with Material Design 3
+- Animated splash screen
+- Real-time email and password validation
 
 ---
 
-## Stack Tecnológica
+## Tech Stack
 
-| Tecnologia | Finalidade |
+| Technology | Purpose |
 |---|---|
-| Kotlin | Linguagem principal |
-| Jetpack Compose | UI declarativa |
-| Hilt | Injeção de dependência |
-| StateFlow / SharedFlow | Gerenciamento de estado |
-| Navigation Compose | Navegação entre telas |
-| Retrofit + OkHttp | Chamadas de API REST |
-| Room | Persistência local |
-| Coroutines | Programação assíncrona |
-| Coil | Carregamento de imagens |
+| Kotlin | Main language |
+| Jetpack Compose | Declarative UI |
+| Hilt | Dependency injection |
+| StateFlow / SharedFlow | State management |
+| Navigation Compose | Screen navigation |
+| Retrofit + OkHttp | REST API calls |
+| Room | Local persistence |
+| Coroutines | Asynchronous programming |
+| Coil | Image loading |
 
 ---
 
-## Estrutura do Projeto
+## Project Structure
 
 ```
 app/src/main/java/com/safepassword/app/
 │
-├── data/                          # Camada de Dados
+├── data/                          # Data layer
 │   ├── api/
-│   │   ├── ApiService.kt          # Interface Retrofit com endpoints
-│   │   └── ApiResult.kt           # Sealed class de resultado + safeApiCall
+│   │   ├── ApiService.kt          # Retrofit interface with endpoints
+│   │   └── ApiResult.kt           # Sealed class for result + safeApiCall
 │   ├── di/
-│   │   ├── NetworkModule.kt       # Provê Retrofit, OkHttp, ApiService
-│   │   └── RepositoryModule.kt    # Bind de interfaces → implementações
+│   │   ├── NetworkModule.kt       # Provides Retrofit, OkHttp, ApiService
+│   │   └── RepositoryModule.kt    # Binds interfaces to implementations
 │   ├── mappers/
-│   │   ├── AuthMapper.kt          # Converte LoginResponse → AuthResult
+│   │   ├── AuthMapper.kt          # Converts LoginResponse → AuthResult
 │   │   └── SampleItemMapper.kt
 │   ├── models/
 │   │   ├── AuthDto.kt             # LoginRequest, LoginResponse, UserResponse
@@ -53,12 +53,12 @@ app/src/main/java/com/safepassword/app/
 │       ├── AuthRepositoryImpl.kt
 │       └── SampleRepositoryImpl.kt
 │
-├── domain/                        # Camada de Domínio (sem dependências externas)
+├── domain/                        # Domain layer (no external dependencies)
 │   ├── models/
 │   │   ├── Auth.kt                # User, Credentials, AuthResult
 │   │   └── SampleItem.kt
 │   ├── repositories/
-│   │   ├── AuthRepository.kt      # Interface de autenticação
+│   │   ├── AuthRepository.kt      # Auth repository interface
 │   │   └── SampleRepository.kt
 │   └── usecases/
 │       ├── LoginUseCase.kt
@@ -66,62 +66,62 @@ app/src/main/java/com/safepassword/app/
 │       ├── ValidatePasswordUseCase.kt
 │       └── GetSampleItemsUseCase.kt
 │
-├── presentation/                  # Camada de Apresentação
+├── presentation/                  # Presentation layer
 │   └── ui/
 │       ├── navigation/
-│       │   ├── Screen.kt          # Sealed class com rotas
+│       │   ├── Screen.kt          # Sealed class with routes
 │       │   └── NavGraph.kt        # NavHost Compose
-│       ├── splash/
-│       │   └── SplashScreen.kt
-│       ├── login/
-│       │   ├── components/        # EmailField, PasswordField
-│       │   ├── screens/           # LoginScreen
-│       │   └── viewmodels/        # LoginViewModel, LoginUiState, LoginUiEvent
-│       └── home/
-│           ├── screens/           # HomeScreen
-│           └── viewmodels/        # HomeViewModel, HomeUiState
-│
-├── ui/theme/                      # Tema global (Material Design 3)
-│   ├── Color.kt
-│   ├── Theme.kt                   # AppTheme (light/dark)
-│   └── Type.kt
-│
-├── MainActivity.kt                # @AndroidEntryPoint
-├── SplashActivity.kt
-└── SafePasswordApp.kt             # @HiltAndroidApp
-```
 
----
+## Setup
 
-## Configuração
+### Requirements
 
-### Requisitos
-
-- Android Studio Hedgehog ou superior
+- Android Studio Hedgehog or newer
 - JDK 17
 - Android SDK 34
 - minSdk 24
 
-### Configurar URL da API
+### Configure API URL
 
-Em `app/build.gradle.kts`:
+In `app/build.gradle.kts`:
 ```kotlin
-buildConfigField("String", "API_BASE_URL", "\"https://sua-api.com/\"")
+buildConfigField("String", "API_BASE_URL", "\"https://your-api.com/\"")
 ```
 
-### Adicionar nova Feature (padrão)
+### Add a new Feature (pattern)
 
-Siga sempre esta estrutura para cada nova feature:
+Always use this structure for each new feature:
 
 ```
-presentation/ui/nova_feature/
-├── components/          # Composables menores e reutilizáveis
-├── screens/             # NovaFeatureScreen.kt
-└── viewmodels/          # NovaFeatureViewModel.kt + UiState + UiEvent
+├── repositories/        # NovaFeatureRepository.kt (interface)
+├── components/          # Small, reusable composables
+├── screens/             # NewFeatureScreen.kt
+└── viewmodels/          # NewFeatureViewModel.kt + UiState + UiEvent
 
 domain/
-├── models/              # NovaEntidade.kt
-├── repositories/        # NovaFeatureRepository.kt (interface)
+├── models/              # NewEntity.kt
+├── repositories/        # NewFeatureRepository.kt (interface)
+└── usecases/            # GetNewFeatureUseCase.kt
+
+data/
+├── models/              # NewEntityDto.kt
+├── mappers/             # NewEntityMapper.kt
+└── repositories/        # NewFeatureRepositoryImpl.kt
+```
+
+### Add a new screen to navigation
+
+In `Screen.kt`:
+```kotlin
+object NewFeature : Screen("new_feature")
+```
+
+In `NavGraph.kt`:
+```kotlin
+composable(Screen.NewFeature.route) {
+    NewFeatureScreen(/* callbacks */)
+}
+```
 └── usecases/            # GetNovaFeatureUseCase.kt
 
 data/
@@ -146,13 +146,13 @@ composable(Screen.NovaFeature.route) {
 
 ---
 
-## Padrões obrigatórios
+## Mandatory Patterns
 
 ### ViewModel
-- Use `StateFlow` para estado da UI (`UiState`)
-- Use `SharedFlow` para eventos únicos (`UiEvent`)
-- Use `viewModelScope` para coroutines
-- Anote com `@HiltViewModel`
+- Use `StateFlow` for UI state (`UiState`)
+- Use `SharedFlow` for one-time events (`UiEvent`)
+- Use `viewModelScope` for coroutines
+- Annotate with `@HiltViewModel`
 
 ```kotlin
 @HiltViewModel
@@ -168,9 +168,9 @@ class PasswordViewModel @Inject constructor(
 ```
 
 ### Composable Screen
-- Tela pública recebe ViewModel via `hiltViewModel()`
-- Conteúdo interno é privado e recebe apenas dados/callbacks
-- Sempre crie `@Preview` para o conteúdo interno
+- Public screen gets ViewModel via `hiltViewModel()`
+- Internal content is private and only receives data/callbacks
+- Always create a `@Preview` for the internal content
 
 ```kotlin
 @Composable
@@ -187,14 +187,14 @@ private fun PasswordContent(uiState: PasswordUiState, onAction: () -> Unit) { ..
 ```
 
 ### Use Cases
-- Um use case = uma ação de negócio
-- Anote dependências com `@Inject`
-- Retorne `Flow` para streams, valor direto para operações únicas
+- One use case = one business action
+- Annotate dependencies with `@Inject`
+- Return `Flow` for streams, direct value for single operations
 
-### Repositório
-- Interface no domínio, implementação na camada de dados
-- Use `safeApiCall` para encapsular chamadas Retrofit
-- Use `flowOn(Dispatchers.IO)` para operações de I/O
+### Repository
+- Interface in domain, implementation in data layer
+- Use `safeApiCall` to wrap Retrofit calls
+- Use `flowOn(Dispatchers.IO)` for I/O operations
 
 ---
 
