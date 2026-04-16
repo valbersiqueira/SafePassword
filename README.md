@@ -198,22 +198,22 @@ private fun PasswordContent(uiState: PasswordUiState, onAction: () -> Unit) { ..
 
 ---
 
-## Internacionalização (i18n)
+## Internationalization (i18n)
 
-O app suporta múltiplos idiomas via `strings.xml`:
+The app supports multiple languages via `strings.xml`:
 
-| Recurso | Idioma |
+| Resource | Language |
 |---|---|
-| `res/values/strings.xml` | Português (pt-BR) — padrão |
-| `res/values-en/strings.xml` | Inglês (en) |
+| `res/values/strings.xml` | Portuguese (pt-BR) — default |
+| `res/values-en/strings.xml` | English (en) |
 
-Para adicionar um novo idioma, crie `res/values-XX/strings.xml` onde `XX` é o código do idioma (ex: `es` para espanhol).
+To add a new language, create `res/values-XX/strings.xml` where `XX` is the language code (e.g., `es` for Spanish).
 
 ---
 
-## Convenção de Commits
+## Commit Convention
 
-Siga o padrão **Conventional Commits** com mensagens em **inglês**:
+Follow the **Conventional Commits** pattern with messages in **English**:
 
 ```
 feat(auth): add biometric authentication support
@@ -223,13 +223,13 @@ test(auth): add unit tests for ValidatePasswordUseCase
 chore(deps): update Compose BOM to 2024.x
 ```
 
-Tipos: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `perf`, `ci`, `build`, `revert`
+Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `perf`, `ci`, `build`, `revert`
 
 ---
 
-## Testes
+## Testing
 
-### Unitário (ViewModel)
+### Unit (ViewModel)
 ```kotlin
 @Test
 fun `when login succeeds should emit NavigateToHome event`() = runTest {
@@ -251,8 +251,8 @@ fun `when login succeeds should emit NavigateToHome event`() = runTest {
 @Test
 fun `validateEmail returns false for invalid email`() {
     val useCase = ValidateEmailUseCase()
-    assertFalse(useCase("emailinvalido"))
-    assertTrue(useCase("valido@email.com"))
+    assertFalse(useCase("invalidemail"))
+    assertTrue(useCase("valid@email.com"))
 }
 ```
 
@@ -260,21 +260,21 @@ fun `validateEmail returns false for invalid email`() {
 
 ## CI/CD (GitHub Actions)
 
-- **Build & Test:** Em todo push e pull request:
-  - Checkout do código
-  - Configuração do JDK 17
-  - Cache das dependências Gradle
-  - Build (assembleDebug)
-  - Execução de testes unitários
-  - Lint
-- **Deploy:** Em push para `main`, pré-configurado para deploy na Google Play Store via `r0adkll/upload-google-play`.
+- **Build & Test:** On every push and pull request:
+    - Checkout code
+    - Set up JDK 17
+    - Cache Gradle dependencies
+    - Build (assembleDebug)
+    - Run unit tests
+    - Lint
+- **Deploy:** On push to `main`, pre-configured for deploy to Google Play Store via `r0adkll/upload-google-play`.
 
-### Secrets necessários para deploy
+### Required secrets for deploy
 
-Configure no repositório do GitHub:
-- `PLAY_STORE_JSON`: JSON da conta de serviço da Play Store API
-- `KEYSTORE_BASE64`: Keystore de release em Base64
+Configure in your GitHub repository:
+- `PLAY_STORE_JSON`: Play Store API service account JSON
+- `KEYSTORE_BASE64`: Release keystore in Base64
 
-> O deploy só funcionará quando os secrets estiverem configurados.
+> Deploy will only work when the secrets are configured.
 
-Veja `.github/workflows/android.yml` para detalhes.
+See `.github/workflows/android.yml` for details.
